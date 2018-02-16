@@ -6,6 +6,7 @@
 package com.gunadarma;
 
 import com.gunadarma.view.ViewBarang;
+import com.gunadarma.view.ViewTransaksiPenjualan;
 
 /**
  *
@@ -75,6 +76,11 @@ public class Master extends javax.swing.JFrame {
         jMenu3.setText("Transaksi");
 
         jMenuItem3.setText("Penjualan Tunai");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
@@ -90,6 +96,13 @@ public class Master extends javax.swing.JFrame {
         jDesktopPane1.add(viewBarang);
         viewBarang.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // penjualan tunai
+        ViewTransaksiPenjualan vtp = new ViewTransaksiPenjualan();
+        jDesktopPane1.add(vtp);
+        vtp.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

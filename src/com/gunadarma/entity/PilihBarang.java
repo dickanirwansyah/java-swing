@@ -9,27 +9,28 @@ package com.gunadarma.entity;
  *
  * @author dickajava
  */
-public class TransaksiDetil {
+public class PilihBarang {
     
-    private Transaksi transaksi;
-    private Barang barang;
+    private String idbarang;
+    private String nama;
     private int jumlah;
     private int harga;
+    private boolean pilih;
     
-    private Transaksi getTransaksi(){
-        return transaksi;
+    public String getIdbarang(){
+        return idbarang;
     }
     
-    public void setTransaksi(Transaksi transaksi){
-        this.transaksi = transaksi;
+    public void setIdbarang(String idbarang){
+        this.idbarang = idbarang;
     }
     
-    public Barang getBarang(){
-        return barang;
+    public String getNama(){
+        return nama;
     }
     
-    public void setBarang(Barang barang){
-        this.barang = barang;
+    public void setNama(String nama){
+        this.nama = nama;
     }
     
     public int getJumlah(){
@@ -46,5 +47,13 @@ public class TransaksiDetil {
     
     public void setHarga(int harga){
         this.harga = harga;
+    }
+    
+    public boolean isPilih(){
+        return pilih;
+    }
+    
+    public void setPilih(boolean pilih){
+        this.pilih = pilih;
     }
 }
