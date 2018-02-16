@@ -5,6 +5,8 @@
  */
 package com.gunadarma;
 
+import com.gunadarma.view.ViewBarang;
+
 /**
  *
  * @author dickajava
@@ -58,6 +60,11 @@ public class Master extends javax.swing.JFrame {
         jMenu2.setText("Data");
 
         jMenuItem1.setText("Data Barang");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Data Transaksi");
@@ -76,6 +83,13 @@ public class Master extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // add barang view
+        ViewBarang viewBarang = new ViewBarang();
+        jDesktopPane1.add(viewBarang);
+        viewBarang.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
