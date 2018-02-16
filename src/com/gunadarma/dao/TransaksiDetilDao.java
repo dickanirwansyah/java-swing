@@ -26,18 +26,19 @@ public class TransaksiDetilDao {
        
         PreparedStatement statement = null;
         boolean valid = false;
-        String sql="INSERT INTO tabel_transaksi_detil (idtransaksi, idbarang, jumlah, harga) "
-                + "VALUES (?, ?, ?, ?)";
+        String sql_trans="insert into tabel_transaksi_detil (idtransaksi, idbarang, jumlah, harga) "
+                + "values(?, ?, ?, ?)";
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql_trans);
             statement.setString(1, td.getTransaksi().getIdtransaksi());
             statement.setString(2, td.getBarang().getIdbarang());
             statement.setInt(3, td.getJumlah());
             statement.setInt(4, td.getHarga());
-            valid = true;
             statement.execute();
+            valid = true;
         } catch (SQLException ex) {
             Logger.getLogger(TransaksiDetilDao.class.getName()).log(Level.SEVERE, null, ex);
+            valid = false;
         }finally{
             if(statement!=null){
                 try {

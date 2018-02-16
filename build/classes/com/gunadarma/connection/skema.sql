@@ -45,7 +45,7 @@ create table tabel_transaksi_detil(
     jumlah int not null,
     harga int not null,
     
-    CONSTRAINT pk_tabel_transaksi_detil PRIMARY KEY (idtransaksi, idbarang),
+    CONSTRAINT pk_tabel_transaksi_deti_primary PRIMARY KEY (idtransaksi, idbarang),
     CONSTRAINT fk_tabel_transaksi_detil_idtransaksi FOREIGN KEY (idtransaksi)
     REFERENCES tabel_transaksi(idtransaksi),
 

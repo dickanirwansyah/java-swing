@@ -5,17 +5,17 @@
  */
 package com.gunadarma.penel;
 
-import com.gunadarma.connection.DBConnection;
 import com.gunadarma.dao.TransaksiDao;
 import com.gunadarma.dialog.PilihBarangDialog;
 import com.gunadarma.entity.PilihBarang;
+import com.gunadarma.entity.Transaksi;
 import com.gunadarma.entity.TransaksiDetil;
 import com.gunadarma.tabelmodel.TabelModelTransaksiDetils;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 
 /**
@@ -27,6 +27,7 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
    
     private TabelModelTransaksiDetils tabelModelTransaksiDetils;
     private Date tanggalSekarang;
+    Transaksi transaksi;
     private TransaksiDao transaksiDao;
     private PilihBarang pilihBarang;
     List<TransaksiDetil> transaksiDetils = new ArrayList<>();
@@ -34,6 +35,7 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
     public PanelTransaksiPenjualan() {
         initComponents();
        transaksiDao = new TransaksiDao();
+       transaksi = new Transaksi();
        tabelModelTransaksiDetils = new TabelModelTransaksiDetils();
        pilihBarang = new PilihBarang();
        txtKodePenjualan.setEnabled(false);
@@ -53,7 +55,13 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         tabel_trandetil.setModel(tabelModelTransaksiDetils);
     }
     
-    //validasi 
+    //reset
+    private void resetForm(){
+        txtTotal.setText("");
+        tabelModelTransaksiDetils.clear();
+    }
+    
+    //validasi input
     private boolean validasiInput(){
         boolean valid = false;
         if(txtKodePenjualan.getText().trim().isEmpty()){
@@ -70,6 +78,14 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         return valid;
     }
     
+    //validasi jika jumlah barang masih 0
+    public int validasiJumlah(){
+        int validJumlahBarang = 0;
+        for(int i=0; i<tabel_trandetil.getRowCount(); i++){
+            validJumlahBarang = (int) tabel_trandetil.getValueAt(i, 1);
+        }
+        return validJumlahBarang;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -84,6 +100,7 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         txtTanggal = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
+        btnTotal = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel_trandetil = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -105,6 +122,13 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
 
         jLabel4.setText("Total Keseluruhan :");
 
+        btnTotal.setText("Total");
+        btnTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTotalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -120,6 +144,8 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
                     .addComponent(txtKodePenjualan)
                     .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                     .addComponent(txtTotal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnTotal)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -136,8 +162,9 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTotal))
+                .addGap(11, 11, 11))
         );
 
         jScrollPane1.setViewportView(tabel_trandetil);
@@ -161,6 +188,11 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         jPanel3.add(btnCariBarang);
 
         btnSimpanPenjualan.setText("Simpan Penjualan");
+        btnSimpanPenjualan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanPenjualanActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnSimpanPenjualan);
 
         btnCetakFakturPenjualan.setText("Cetak Faktur Penjualan");
@@ -230,7 +262,65 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         String kode = transaksiDao.kodeTransaksi();
         txtKodePenjualan.setText(kode);
         btnCariBarang.setEnabled(true);
+        btnNew.setEnabled(false);
     }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalActionPerformed
+        // total
+        int jumlahBaris = tabelModelTransaksiDetils.getRowCount();
+        int total = 0;
+        int jumlahbeli;
+        int hargaUnit;
+        
+        TableModel tableModel;
+        tableModel = tabel_trandetil.getModel();
+        if(validasiJumlah() == 0){
+            JOptionPane.showMessageDialog(null, "maaf total tidak bisa "
+                    + "dihitung karena jumlah belanja masih kosong");
+        }else{
+            for(int i=0; i<jumlahBaris; i++){
+                jumlahbeli = Integer.parseInt(tabel_trandetil.getValueAt(i, 1).toString());
+                hargaUnit = Integer.parseInt(tabel_trandetil.getValueAt(i, 2).toString());
+                
+                //total keseluruhan
+                total = total + (jumlahbeli * hargaUnit);
+            }
+            txtTotal.setText(String.valueOf(total));
+        }
+    }//GEN-LAST:event_btnTotalActionPerformed
+
+    private void btnSimpanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanPenjualanActionPerformed
+        // simpan barang
+        if(validasiInput() == true){
+            transaksi = new Transaksi();
+            transaksi.setIdTransaksi(txtKodePenjualan.getText());
+            transaksi.setTanggalTransaksi(txtTanggal.getDate());
+            transaksi.setTotal(Integer.valueOf(txtTotal.getText()));
+            
+            List<TransaksiDetil> detilsTransaksis = new ArrayList();
+            for(int i=0; i<tabelModelTransaksiDetils.getRowCount(); i++){
+                TransaksiDetil detils = new TransaksiDetil();
+                detils.setTransaksi(transaksi);
+                
+                PilihBarang b = (PilihBarang) tabel_trandetil.getValueAt(i, 0);
+                detils.setBarang(b);
+                int jumlah = (int) tabel_trandetil.getValueAt(i, 1);
+                detils.setJumlah(jumlah);
+                int harga = (int) tabel_trandetil.getValueAt(i, 2);
+                detils.setHarga(harga);
+                detilsTransaksis.add(detils);
+            }
+            transaksi.setTransaksiDetils(detilsTransaksis);
+            if(transaksiDao.insertTransaksi(transaksi) == true){
+                JOptionPane.showMessageDialog(null, "data berhasil disimpan");
+                btnNew.setEnabled(true);
+                resetForm();
+            }else{
+                JOptionPane.showMessageDialog(null, "data gagal disimpan ");
+                resetForm();
+            }
+        }
+    }//GEN-LAST:event_btnSimpanPenjualanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -238,6 +328,7 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
     private javax.swing.JButton btnCetakFakturPenjualan;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSimpanPenjualan;
+    private javax.swing.JButton btnTotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

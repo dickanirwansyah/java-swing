@@ -42,39 +42,49 @@ public class TransaksiDao implements RepositoryTransaksi{
         String sql = "insert into tabel_transaksi(idtransaksi, tanggal_transaksi, total)"
                 + "values(?, ?, ?)";
         try {
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false);
             statement = connection.prepareStatement(sql);
             statement.setString(1, transaksi.getIdtransaksi());
             statement.setDate(2, new Date(transaksi.getTanggalTransaksi().getTime()));
             statement.setInt(3, transaksi.getTotal());
+            statement.executeUpdate();
             
-            //insert transaksi detil
-            //mengurangi jumlah stok
             int validJumlah = 0;
             for(TransaksiDetil transaksiDetils : transaksi.getTransaksiDetils()){
                 transaksiDetilDao.insertTransaksiDetils(connection, transaksiDetils);
                         
                 barangDao = new PilihBarangDao();
                 if(transaksiDetils.getBarang().getJumlah() < transaksiDetils.getJumlah()){
-                    JOptionPane.showMessageDialog(null, "Maaf jumlah stok barang "
-                            + "tidak mencukupi untuk melakukan transaksi !");
+                    JOptionPane.showMessageDialog(null, "maaf jumlah "+transaksiDetils.getBarang().getNama()
+                            +" tidak mencukupi untuk transaksi !");
                 validJumlah = transaksiDetils.getBarang().getJumlah() - transaksiDetils.getJumlah();
+                valid = false;
                 }else{
-                    barangDao.kurangJumlahStokBarang(transaksiDetils.getJumlah(), 
-                            transaksiDetils.getBarang());
+                    barangDao.kurangJumlahStokBarang(transaksiDetils.getJumlah(), transaksiDetils.getBarang());
                 }
             }
             
+            if(validJumlah<0){
+                connection.rollback();
+                connection.setAutoCommit(true);
+            }else{
+                connection.commit();
+                connection.setAutoCommit(true);
+                valid=true;
+            }
+            
+            /**
             connection.commit();
             valid=true;
             connection.setAutoCommit(true);
+            **/
             
         } catch (SQLException ex) {
             try {
                 connection.rollback();
                 connection.setAutoCommit(true);
-                valid=false;
                 Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex);
+                valid = false;
             } catch (SQLException ex1) {
                 Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex1);
             }
