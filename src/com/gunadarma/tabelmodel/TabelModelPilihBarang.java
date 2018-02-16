@@ -19,7 +19,7 @@ public class TabelModelPilihBarang extends AbstractTableModel{
     public TabelModelPilihBarang(){
         
     }
-    private List<PilihBarang> pilihBarangs = new ArrayList<>();
+    private List<PilihBarang> pilihBarangs = new ArrayList<PilihBarang>();
 
     @Override
     public int getRowCount() {
@@ -50,13 +50,14 @@ public class TabelModelPilihBarang extends AbstractTableModel{
           case 1 : return "nama";
           case 2 : return "jumlah";
           case 3 : return "harga";
-          case 4 : return "pilih";
+          case 4 : return "#";
           default:return null;
       }
     }
     
     public void listPilihBarang(List<PilihBarang> pilihBarangs){
         this.pilihBarangs = pilihBarangs;
+        fireTableDataChanged();
     }
 
     @Override
@@ -73,25 +74,27 @@ public class TabelModelPilihBarang extends AbstractTableModel{
       }
       
     }
+   
+    public PilihBarang getPilihBarang(int index){
+        return pilihBarangs.get(index);
+    }
     
     public boolean pilihBarangCekbox(boolean cek){
         return pilihBarangs.equals(cek);
     }
     
+    
     public List<PilihBarang> getPilihBarangCek(){
-        List list = new ArrayList();
+        List ls=new ArrayList();
         for(PilihBarang pb : pilihBarangs){
             if(pb.isPilih()){
-                list.add(pb);
+                ls.add(pb);
             }
         }
-        return list;
+        return ls;
     }
     
-    public PilihBarang getPilihBarang(int index){
-        return pilihBarangs.get(index);
-    }
-
+   
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if(aValue!=null && aValue instanceof Boolean && columnIndex == 4){

@@ -12,11 +12,11 @@ package com.gunadarma.entity;
 public class TransaksiDetil {
     
     private Transaksi transaksi;
-    private Barang barang;
+    private PilihBarang barang;
     private int jumlah;
     private int harga;
     
-    private Transaksi getTransaksi(){
+    public Transaksi getTransaksi(){
         return transaksi;
     }
     
@@ -24,11 +24,11 @@ public class TransaksiDetil {
         this.transaksi = transaksi;
     }
     
-    public Barang getBarang(){
+    public PilihBarang getBarang(){
         return barang;
     }
     
-    public void setBarang(Barang barang){
+    public void setBarang(PilihBarang barang){
         this.barang = barang;
     }
     

@@ -56,4 +56,11 @@ public class PilihBarang {
     public void setPilih(boolean pilih){
         this.pilih = pilih;
     }
+
+    @Override
+    public String toString() {
+        return nama;
+    }
+    
+    
 }

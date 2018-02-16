@@ -9,7 +9,6 @@ import com.gunadarma.connection.DBConnection;
 import com.gunadarma.dao.PilihBarangDao;
 import com.gunadarma.entity.PilihBarang;
 import com.gunadarma.tabelmodel.TabelModelPilihBarang;
-import java.sql.Connection;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -19,14 +18,16 @@ import javax.swing.JOptionPane;
  */
 public class PilihBarangDialog extends javax.swing.JDialog {
 
-    private Connection connection;
-    private PilihBarang pb;
+    private PilihBarang pilihBarang;
     private PilihBarangDao pilihBarangDao;
-    private TabelModelPilihBarang tabelModelPilihBarang;
+    public TabelModelPilihBarang tabelModelPilihBarang;
     
     public PilihBarangDialog() {
         initComponents();
-        connection = DBConnection.getConnection();
+        //jika tadi salah maka setModal(true) kagak ada
+        setModal(true);
+        pilihBarangDao = new PilihBarangDao();
+        pilihBarang = new PilihBarang();
         tabelModelPilihBarang = new TabelModelPilihBarang();
         pilihBarangDao = new PilihBarangDao();
         loadData();
@@ -44,7 +45,7 @@ public class PilihBarangDialog extends javax.swing.JDialog {
     public PilihBarang ambilBarang(){
         setVisible(true);
         setLocationRelativeTo(null);
-        return pb;
+        return pilihBarang;
     }
     
     @SuppressWarnings("unchecked")
@@ -116,18 +117,13 @@ public class PilihBarangDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
-        // pilih barang
-        try{
-            int index = tabel_pilih_barang.getSelectedRow();
-            if(index!=-1){
-                pb = tabelModelPilihBarang.getPilihBarang(tabel_pilih_barang.convertRowIndexToModel(index));
-                dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "barang belum dipilih !");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+       int index = tabel_pilih_barang.getSelectedRow();
+       if(index!=-1){
+           pilihBarang = tabelModelPilihBarang.getPilihBarang(tabel_pilih_barang.convertRowIndexToModel(index));
+           dispose();
+       }else{
+           JOptionPane.showMessageDialog(null, "pilih salah satu");
+       }
     }//GEN-LAST:event_btnPilihActionPerformed
 
     private void btnBatalkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalkanActionPerformed

@@ -29,6 +29,12 @@ public class ViewTransaksiPenjualan extends javax.swing.JInternalFrame {
 
         panelTransaksiPenjualan1 = new com.gunadarma.penel.PanelTransaksiPenjualan();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Transaksi Penjualan");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

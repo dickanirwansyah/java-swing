@@ -233,26 +233,4 @@ public class BarangDao implements RepositoryBarang {
         }
     }
 
-    @Override
-    public void kurangJumlahStokBarang(int jumlah, Barang barang) {
-      PreparedStatement statement = null;
-      String sql = "UPDATE barang set jumlah=jumlah-? WHERE idbarang=?";
-        try {
-            statement=connection.prepareStatement(sql);
-            statement.setInt(1, jumlah);
-            statement.setString(2, barang.getIdbarang());
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangDao.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BarangDao.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
 }

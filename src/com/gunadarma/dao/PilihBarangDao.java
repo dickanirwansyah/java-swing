@@ -67,5 +67,25 @@ public class PilihBarangDao implements RepositoryPilihBarang{
             }
         }
     }
+
+    @Override
+    public void kurangJumlahStokBarang(int jumlah, PilihBarang barang) {
+      PreparedStatement statement = null;
+      String sql = "UPDATE tabel_barang set jumlah=jumlah-? where idbarang=?";
+        try {
+            statement=connection.prepareStatement(sql);
+            statement.setInt(1, jumlah);
+            statement.setString(2, barang.getIdbarang());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(PilihBarangDao.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+          try {
+              statement.close();
+          } catch (SQLException ex) {
+              Logger.getLogger(PilihBarangDao.class.getName()).log(Level.SEVERE, null, ex);
+          }
+        }
+    }
     
 }

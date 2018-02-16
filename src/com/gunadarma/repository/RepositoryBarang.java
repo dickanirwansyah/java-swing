@@ -26,6 +26,5 @@ public interface RepositoryBarang {
     
     String kodeBarang();
     
-    //mengurangi jumlah stock barang
-    void kurangJumlahStokBarang(int jumlah, Barang barang);
+    
 }

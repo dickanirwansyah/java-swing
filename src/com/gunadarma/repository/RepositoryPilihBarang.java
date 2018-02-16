@@ -15,4 +15,7 @@ import java.util.List;
 public interface RepositoryPilihBarang {
     
     List<PilihBarang> tampilkanBarang();
+    
+    //mengurangi jumlah stock barang
+    void kurangJumlahStokBarang(int jumlah, PilihBarang barang);
 }

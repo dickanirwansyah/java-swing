@@ -23,7 +23,7 @@ public class Transaksi {
         return idtransaksi;
     }
     
-    public void setTransaksi(String idtransaksi){
+    public void setIdTransaksi(String idtransaksi){
         this.idtransaksi = idtransaksi;
     }
     
