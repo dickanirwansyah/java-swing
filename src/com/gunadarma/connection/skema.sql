@@ -25,8 +25,10 @@ create table tabel_pengguna(
 
     idpengguna varchar(255) not null,
     nama varchar(255) not null,
+    username varchar(255) not null,
+    password varchar(255) not null,
     makedate date not null,
-
+ 
     constraint pk_tabel_pengguna primary key (idpengguna)
 );
 

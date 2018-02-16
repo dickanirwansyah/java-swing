@@ -15,14 +15,31 @@ public class Pengguna {
     
     private String idpengguna;
     private String nama;
+    private String username;
+    private String password;
     private Date makedate;
     
     public Pengguna(){}
     
-    public Pengguna(String idpengguna, String nama, Date makedate){
+    public Pengguna(String idpengguna, 
+            String nama, 
+            String username, 
+            String password, 
+            Date makedate){
+        
         this.idpengguna = idpengguna;
         this.nama = nama;
+        this.username = username;
+        this.password = password;
         this.makedate = makedate;
+    }
+    
+    public String getUsername(){
+        return username;
+    }
+    
+    public void setUsername(String username){
+        this.username = username;
     }
     
     public String getIdpengguna(){
