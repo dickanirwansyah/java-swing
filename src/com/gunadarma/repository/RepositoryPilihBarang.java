@@ -18,4 +18,7 @@ public interface RepositoryPilihBarang {
     
     //mengurangi jumlah stock barang
     void kurangJumlahStokBarang(int jumlah, PilihBarang barang);
+    
+    //find byid
+    PilihBarang tampilkanById(String idbarang);
 }

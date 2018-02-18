@@ -52,6 +52,10 @@ public class TabelModelTransaksi extends AbstractTableModel{
       }
     }
     
+    public Transaksi getTransaksi(int index){
+        return listTransaksi.get(index);
+    }
+    
     public void setListTransaksi(List<Transaksi> lisTransaksi){
         this.listTransaksi = lisTransaksi;
         fireTableDataChanged();

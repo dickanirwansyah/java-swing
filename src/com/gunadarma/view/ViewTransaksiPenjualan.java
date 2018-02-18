@@ -16,6 +16,7 @@ public class ViewTransaksiPenjualan extends javax.swing.JInternalFrame {
      */
     public ViewTransaksiPenjualan() {
         initComponents();
+        setLocation(200, 40);
     }
 
     /**

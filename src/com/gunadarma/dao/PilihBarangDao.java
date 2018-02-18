@@ -87,5 +87,44 @@ public class PilihBarangDao implements RepositoryPilihBarang{
           }
         }
     }
+
+    @Override
+    public PilihBarang tampilkanById(String idbarang) {
+      PreparedStatement statement = null;
+      ResultSet rs = null;
+      PilihBarang pb = null;
+      String sql = "select * from tabel_barang where idbarang=?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, idbarang);
+            rs=statement.executeQuery();
+            while(rs.next()){
+                pb = new PilihBarang();
+                pb.setIdbarang(rs.getString("idbarang"));
+                pb.setNama(rs.getString("nama"));
+                pb.setJumlah(rs.getInt("jumlah"));
+                pb.setHarga(rs.getInt("harga"));
+            }
+            return pb;
+        } catch (SQLException ex) {
+            Logger.getLogger(PilihBarangDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }finally{
+            if(statement!=null){
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PilihBarangDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if(rs!=null){
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PilihBarangDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
     
 }

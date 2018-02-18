@@ -5,6 +5,11 @@
  */
 package com.gunadarma.dialog;
 
+import com.gunadarma.dao.PenggunaDao;
+import com.gunadarma.entity.Pengguna;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author dickajava
@@ -12,11 +17,54 @@ package com.gunadarma.dialog;
 public class SignUpPenggunaDialog extends javax.swing.JDialog {
 
    
+    private PenggunaDao penggunaDao;
+    Pengguna p ;
     public SignUpPenggunaDialog() {
         setModal(true);
         initComponents();
+        penggunaDao = new PenggunaDao();
+        p = new Pengguna();
+        setLocationRelativeTo(null);
+        novalid();
+    }
+    
+    private void novalid(){
+        txtKodePengguna.setEnabled(false);
+        txtNama.setEnabled(false);
+        txtPassword.setEnabled(false);
+        txtUsername.setEnabled(false);
+        btnSimpan1.setEnabled(false);
+    }
+    
+    private void valid(){
+        txtNama.setEnabled(true);
+        txtPassword.setEnabled(true);
+        txtUsername.setEnabled(true);
+        btnSimpan1.setEnabled(true);
     }
 
+    private void restForm(){
+        txtKodePengguna.setText("");
+        txtNama.setText("");
+        txtPassword.setText("");
+        txtUsername.setText("");
+    }
+    
+    private boolean validasi(){
+        boolean valid = false;
+        if(txtKodePengguna.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "kode pengguna masih kosong");
+        }else if(txtNama.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "nama masih kosong");
+        }else if(txtPassword.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "password masih kosong");
+        }else if(txtUsername.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "username masih kosong");
+        }else{
+            valid = true;
+        }
+        return valid;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -34,7 +82,8 @@ public class SignUpPenggunaDialog extends javax.swing.JDialog {
         txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
-        btnSimpan = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
+        btnSimpan1 = new javax.swing.JButton();
         btnKembaliLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -97,10 +146,28 @@ public class SignUpPenggunaDialog extends javax.swing.JDialog {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnSimpan.setText("Simpan");
-        jPanel3.add(btnSimpan);
+        btnNew.setText("New");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnNew);
+
+        btnSimpan1.setText("Simpan");
+        btnSimpan1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpan1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnSimpan1);
 
         btnKembaliLogin.setText("Kembali Ke Login");
+        btnKembaliLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKembaliLoginActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnKembaliLogin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,13 +199,53 @@ public class SignUpPenggunaDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        //auto kode
+        String kode = penggunaDao.kodePengguna();
+        txtKodePengguna.setText(kode);
+        valid();
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnKembaliLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliLoginActionPerformed
+ 
+        dispose();
+        LoginPenggunaDialog dialog = new LoginPenggunaDialog(null, rootPaneCheckingEnabled);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnKembaliLoginActionPerformed
+
+    private void btnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan1ActionPerformed
+        // save
+        try{
+            Pengguna p = new Pengguna();
+            String kodepengguna = txtKodePengguna.getText();
+            String nama = txtNama.getText();
+            String username = txtUsername.getText();
+            String password = txtPassword.getText();
+            
+            p.setIdpengguna(kodepengguna);
+            p.setNama(nama);
+            p.setMakedate(new Date());
+            p.setPassword(password);
+            p.setUsername(username);
+            
+            penggunaDao.signUpPengguna(p);
+            JOptionPane.showMessageDialog(null, "data berhasil disimpan");
+            novalid();
+            restForm();
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSimpan1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKembaliLogin;
-    private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnSimpan1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

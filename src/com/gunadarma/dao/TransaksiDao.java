@@ -6,6 +6,8 @@
 package com.gunadarma.dao;
 
 import com.gunadarma.connection.DBConnection;
+import com.gunadarma.entity.LaporanTransaksi;
+import com.gunadarma.entity.PilihBarang;
 import com.gunadarma.entity.Transaksi;
 import com.gunadarma.entity.TransaksiDetil;
 import com.gunadarma.repository.RepositoryTransaksi;
@@ -168,6 +170,108 @@ public class TransaksiDao implements RepositoryTransaksi{
             return null;
         }finally{
             if(statement != null){
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if(rs!=null){
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<LaporanTransaksi> getLaporanTransaksiById(String idtransaksi) {
+      PreparedStatement statement = null;
+      List list = new ArrayList();
+      ResultSet rs = null;
+      String sql="select * from tabel_transaksi inner join tabel_transaksi_detil "
+              + "on (tabel_transaksi.idtransaksi=tabel_transaksi_detil.idtransaksi) "
+              + "where tabel_transaksi.idtransaksi=?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, idtransaksi);
+            rs=statement.executeQuery();
+            while(rs.next()){
+                LaporanTransaksi lt = new LaporanTransaksi();
+                Transaksi t = new Transaksi();
+                t.setIdTransaksi(rs.getString("idtransaksi"));
+                t.setTanggalTransaksi(rs.getDate("tanggal_transaksi"));
+                t.setTotal(rs.getInt("total"));
+                lt.setTransaksi(t);
+                    TransaksiDetil td = new TransaksiDetil();
+                    String idbarang = rs.getString("idbarang");
+                    PilihBarang byidbarang = barangDao.tampilkanById(idbarang);
+                    td.setBarang(byidbarang);
+                    td.setHarga(rs.getInt("harga"));
+                    td.setJumlah(rs.getInt("jumlah"));
+                    lt.setTransaksiDetil(td);
+                 list.add(lt);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }finally{
+            if(statement!=null){
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if(rs!=null){
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<LaporanTransaksi> getLaporanTransaksiByDate(java.util.Date tanggalMulai, java.util.Date tanggalAkhir) {
+        PreparedStatement statement = null;
+        List list = new ArrayList();
+        ResultSet rs = null;
+        String sql = "select * from tabel_transaksi inner join tabel_transaksi_detil "
+                + "on (tabel_transaksi.idtransaksi=tabel_transaksi_detil.idtransaksi) "
+                + "where (tabel_transaksi.tanggal_transaksi>=?) and "
+                + "(tabel_transaksi.tanggal_transaksi<=?)";
+        try {
+            statement=connection.prepareStatement(sql);
+            statement.setDate(1, new Date(tanggalMulai.getTime()));
+            statement.setDate(2, new Date(tanggalAkhir.getTime()));
+            rs=statement.executeQuery();
+            while(rs.next()){
+                LaporanTransaksi lt = new LaporanTransaksi();
+                Transaksi t = new Transaksi();
+                    t.setIdTransaksi(rs.getString("tabel_transaksi.idtransaksi"));
+                    t.setTanggalTransaksi(rs.getDate("tabel_transaksi.tanggal_transaksi"));
+                    t.setTotal(rs.getInt("tabel_transaksi.total"));
+                    lt.setTransaksi(t);
+                TransaksiDetil td = new TransaksiDetil();
+                String idbarang = rs.getString("tabel_transaksi_detil.idbarang");
+                PilihBarang pb = barangDao.tampilkanById(idbarang);
+                td.setBarang(pb);
+                td.setHarga(rs.getInt("tabel_transaksi_detil.harga"));
+                td.setJumlah(rs.getInt("tabel_transaksi_detil.jumlah"));
+                lt.setTransaksiDetil(td);
+                list.add(lt);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(TransaksiDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }finally{
+            if(statement!=null){
                 try {
                     statement.close();
                 } catch (SQLException ex) {

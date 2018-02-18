@@ -5,7 +5,9 @@
  */
 package com.gunadarma.repository;
 
+import com.gunadarma.entity.LaporanTransaksi;
 import com.gunadarma.entity.Transaksi;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,4 +21,8 @@ public interface RepositoryTransaksi {
     String kodeTransaksi();
     
     List<Transaksi> dataTransaksi();
+    
+    List<LaporanTransaksi> getLaporanTransaksiById(String idtransaksi);
+    
+    List<LaporanTransaksi> getLaporanTransaksiByDate(Date tanggalMulai, Date tanggalAkhir);
 }

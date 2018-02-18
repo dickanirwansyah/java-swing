@@ -16,7 +16,7 @@ public class ViewBarang extends javax.swing.JInternalFrame {
      */
     public ViewBarang() {
         initComponents();
-        setLocation(80, 90);
+        setLocation(200, 40);
     }
 
     

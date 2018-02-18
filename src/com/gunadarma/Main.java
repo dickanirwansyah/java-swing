@@ -6,6 +6,7 @@
 package com.gunadarma;
 
 import com.gunadarma.connection.DBConnection;
+import com.gunadarma.dialog.LoginPenggunaDialog;
 import java.sql.Connection;
 
 /**
@@ -21,6 +22,8 @@ public class Main {
         Connection connection = DBConnection.getConnection();
         
         System.out.println(connection+" success !");
+        
+        
     }
     
 }

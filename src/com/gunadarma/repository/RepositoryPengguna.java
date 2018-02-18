@@ -5,10 +5,20 @@
  */
 package com.gunadarma.repository;
 
+import com.gunadarma.entity.Pengguna;
+
 /**
  *
  * @author dickajava
  */
 public interface RepositoryPengguna {
+    
+    String kodePengguna();
+    
+    boolean signUpPengguna(Pengguna pengguna);
+    
+    Pengguna loginPengguna(String username, String password);
+    
+    
     
 }

@@ -16,6 +16,7 @@ public class ViewDataTransaksi extends javax.swing.JInternalFrame {
      */
     public ViewDataTransaksi() {
         initComponents();
+        setLocation(200, 40);
     }
 
     /**

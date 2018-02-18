@@ -7,15 +7,21 @@ package com.gunadarma.penel;
 
 import com.gunadarma.dao.TransaksiDao;
 import com.gunadarma.dialog.PilihBarangDialog;
+import com.gunadarma.entity.LaporanTransaksi;
 import com.gunadarma.entity.PilihBarang;
 import com.gunadarma.entity.Transaksi;
 import com.gunadarma.entity.TransaksiDetil;
+import com.gunadarma.laporan.TampilkanLaporan;
 import com.gunadarma.tabelmodel.TabelModelTransaksiDetils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.swing.JRViewer;
 
 
 /**
@@ -196,6 +202,11 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         jPanel3.add(btnSimpanPenjualan);
 
         btnCetakFakturPenjualan.setText("Cetak Faktur Penjualan");
+        btnCetakFakturPenjualan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCetakFakturPenjualanActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnCetakFakturPenjualan);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -315,12 +326,31 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "data berhasil disimpan");
                 btnNew.setEnabled(true);
                 resetForm();
+                btnCetakFakturPenjualan.setEnabled(true);
             }else{
                 JOptionPane.showMessageDialog(null, "data gagal disimpan ");
                 resetForm();
             }
         }
     }//GEN-LAST:event_btnSimpanPenjualanActionPerformed
+
+    private void btnCetakFakturPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakFakturPenjualanActionPerformed
+        // cetak laporan berdasarkan id
+        try{
+            String kodeTransaksi = txtKodePenjualan.getText();
+            List<LaporanTransaksi> listReportBerdasarkanById = transaksiDao.getLaporanTransaksiById(kodeTransaksi);
+            
+            //get jasper
+            JasperPrint jp = JasperFillManager.fillReport(this.getClass()
+                    .getClassLoader().getResourceAsStream("com/gunadarma/laporan/LaporanTransaksi.jasper"), null, 
+                    new JRBeanCollectionDataSource(listReportBerdasarkanById));
+            JRViewer jrv = new JRViewer(jp);
+            JOptionPane.showMessageDialog(null, "Data berhasil dicetak !");
+            TampilkanLaporan laporan = new TampilkanLaporan(jrv, "Laporan Berdasarkan Kode");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnCetakFakturPenjualanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
