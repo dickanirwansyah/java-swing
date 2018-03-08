@@ -41,14 +41,17 @@ public class TransaksiDao implements RepositoryTransaksi{
     public boolean insertTransaksi(Transaksi transaksi) {
         PreparedStatement statement = null;
         boolean valid = false;
-        String sql = "insert into tabel_transaksi(idtransaksi, tanggal_transaksi, total)"
-                + "values(?, ?, ?)";
+        String sql = "insert into tabel_transaksi(idtransaksi, tanggal_transaksi, nama, notelp, alamat, total)"
+                + "values(?, ?, ?, ?, ?, ?)";
         try {
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(sql);
             statement.setString(1, transaksi.getIdtransaksi());
             statement.setDate(2, new Date(transaksi.getTanggalTransaksi().getTime()));
-            statement.setInt(3, transaksi.getTotal());
+            statement.setString(3, transaksi.getNama());
+            statement.setString(4, transaksi.getNotelp());
+            statement.setString(5, transaksi.getAlamat());
+            statement.setInt(6, transaksi.getTotal());
             statement.executeUpdate();
             
             int validJumlah = 0;

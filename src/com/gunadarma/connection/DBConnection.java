@@ -19,7 +19,6 @@ public class DBConnection {
     
     private static Connection connection;
     
-    
     public static Connection getConnection(){
         if(connection == null){
             try {

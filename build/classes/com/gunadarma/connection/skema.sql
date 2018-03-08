@@ -36,6 +36,9 @@ create table tabel_pengguna(
 create table tabel_transaksi(
     idtransaksi varchar(255) not null,
     tanggal_transaksi date not null,
+    nama varchar(255) not null,
+    notelp varchar(255) not null,
+    alamat varchar(255) not null,
     total int not null,
     constraint pk_tabel_transaksi primary key (idtransaksi)
 );

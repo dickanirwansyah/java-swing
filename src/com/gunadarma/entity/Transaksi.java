@@ -16,8 +16,35 @@ public class Transaksi {
     
     private String idtransaksi;
     private Date tanggalTransaksi;
+    private String nama;
+    private String notelp;
+    private String alamat;
     private int total;
     private List<TransaksiDetil> transaksiDetils;
+    
+    public String getNama(){
+        return nama;
+    }
+    
+    public void setNama(String nama){
+        this.nama=nama;
+    }
+    
+    public String getNotelp(){
+        return notelp;
+    }
+    
+    public void setNotelp(String notelp){
+        this.notelp = notelp;
+    }
+    
+    public String getAlamat(){
+        return alamat;
+    }
+    
+    public void setAlamat(String alamat){
+        this.alamat = alamat;
+    }
     
     public String getIdtransaksi(){
         return idtransaksi;
