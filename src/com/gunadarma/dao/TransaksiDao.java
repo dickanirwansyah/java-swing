@@ -164,6 +164,9 @@ public class TransaksiDao implements RepositoryTransaksi{
                 Transaksi t = new Transaksi();
                 t.setIdTransaksi(rs.getString("idtransaksi"));
                 t.setTanggalTransaksi(rs.getDate("tanggal_transaksi"));
+                t.setNama(rs.getString("nama"));
+                t.setAlamat(rs.getString("alamat"));
+                t.setNotelp(rs.getString("notelp"));
                 t.setTotal(rs.getInt("total"));
                 list.add(t);
             }
@@ -206,6 +209,9 @@ public class TransaksiDao implements RepositoryTransaksi{
                 Transaksi t = new Transaksi();
                 t.setIdTransaksi(rs.getString("idtransaksi"));
                 t.setTanggalTransaksi(rs.getDate("tanggal_transaksi"));
+                t.setNama(rs.getString("nama"));
+                t.setNotelp(rs.getString("notelp"));
+                t.setAlamat(rs.getString("alamat"));
                 t.setTotal(rs.getInt("total"));
                 lt.setTransaksi(t);
                     TransaksiDetil td = new TransaksiDetil();
@@ -258,6 +264,9 @@ public class TransaksiDao implements RepositoryTransaksi{
                 Transaksi t = new Transaksi();
                     t.setIdTransaksi(rs.getString("tabel_transaksi.idtransaksi"));
                     t.setTanggalTransaksi(rs.getDate("tabel_transaksi.tanggal_transaksi"));
+                    t.setAlamat(rs.getString("tabel_transaksi.alamat"));
+                    t.setNama(rs.getString("tabel_transaksi.nama"));
+                    t.setNotelp(rs.getString("tabel_transaksi.notelp"));
                     t.setTotal(rs.getInt("tabel_transaksi.total"));
                     lt.setTransaksi(t);
                 TransaksiDetil td = new TransaksiDetil();

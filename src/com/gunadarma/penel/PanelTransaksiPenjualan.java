@@ -45,6 +45,9 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
        tabelModelTransaksiDetils = new TabelModelTransaksiDetils();
        pilihBarang = new PilihBarang();
        txtKodePenjualan.setEnabled(false);
+       txtNamaPembeli.setEnabled(false);
+       txtTeleponPembeli.setEnabled(false);
+       txtAlamat.setEnabled(false);
        txtTanggal.setEnabled(false);
        txtTotal.setEnabled(false);
        tanggalSekarang = new Date();
@@ -64,6 +67,12 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
     //reset
     private void resetForm(){
         txtTotal.setText("");
+        txtNamaPembeli.setText("");
+        txtTeleponPembeli.setText("");
+        txtAlamat.setText("");
+        txtAlamat.setEnabled(false);
+        txtNamaPembeli.setEnabled(false);
+        txtTeleponPembeli.setEnabled(false);
         tabelModelTransaksiDetils.clear();
     }
     
@@ -78,10 +87,18 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "total masih kosong !");
         }else if(tabel_trandetil.getRowCount() == 0){
             JOptionPane.showMessageDialog(null, "transaksi masih kosong !");
+        }else if(txtNamaPembeli.getText().trim().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Nama pembeli masih kosong !");
+        }else if(txtTeleponPembeli.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Telepon pembeli masih kosong !");
+        }else if(txtAlamat.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Alamat pembeli masih kosong !");
         }else{
             valid = true;
         }
         return valid;
+        
     }
     
     //validasi jika jumlah barang masih 0
@@ -107,6 +124,13 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         btnTotal = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtNamaPembeli = new javax.swing.JTextField();
+        txtTeleponPembeli = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtAlamat = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel_trandetil = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -135,6 +159,17 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
             }
         });
 
+        jLabel5.setText("Nama Pembeli: ");
+
+        jLabel6.setText("Telepon:");
+
+        jLabel7.setText("Alamat :");
+
+        txtAlamat.setColumns(20);
+        txtAlamat.setRows(5);
+        txtAlamat.setText("\n");
+        jScrollPane2.setViewportView(txtAlamat);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -142,16 +177,24 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtKodePenjualan)
-                    .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                    .addComponent(txtTotal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnTotal)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtKodePenjualan)
+                            .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                            .addComponent(txtTotal)
+                            .addComponent(txtNamaPembeli)
+                            .addComponent(txtTeleponPembeli))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnTotal))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -165,12 +208,28 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGap(17, 17, 17)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(txtNamaPembeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTotal))
-                .addGap(11, 11, 11))
+                    .addComponent(jLabel6)
+                    .addComponent(txtTeleponPembeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTotal))
+                        .addGap(11, 11, 11))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(52, Short.MAX_VALUE))))
         );
 
         jScrollPane1.setViewportView(tabel_trandetil);
@@ -228,12 +287,12 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -272,6 +331,9 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
         //auto number
         String kode = transaksiDao.kodeTransaksi();
         txtKodePenjualan.setText(kode);
+        txtNamaPembeli.setEnabled(true);
+        txtTeleponPembeli.setEnabled(true);
+        txtAlamat.setEnabled(true);
         btnCariBarang.setEnabled(true);
         btnNew.setEnabled(false);
     }//GEN-LAST:event_btnNewActionPerformed
@@ -307,6 +369,9 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
             transaksi.setIdTransaksi(txtKodePenjualan.getText());
             transaksi.setTanggalTransaksi(txtTanggal.getDate());
             transaksi.setTotal(Integer.valueOf(txtTotal.getText()));
+            transaksi.setAlamat(txtAlamat.getText());
+            transaksi.setNotelp(txtTeleponPembeli.getText());
+            transaksi.setNama(txtNamaPembeli.getText());
             
             List<TransaksiDetil> detilsTransaksis = new ArrayList();
             for(int i=0; i<tabelModelTransaksiDetils.getRowCount(); i++){
@@ -342,7 +407,7 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
             
             //get jasper
             JasperPrint jp = JasperFillManager.fillReport(this.getClass()
-                    .getClassLoader().getResourceAsStream("com/gunadarma/laporan/LaporanTransaksi.jasper"), null, 
+                    .getClassLoader().getResourceAsStream("com/gunadarma/laporan/TransaksiByKode.jasper"), null, 
                     new JRBeanCollectionDataSource(listReportBerdasarkanById));
             JRViewer jrv = new JRViewer(jp);
             JOptionPane.showMessageDialog(null, "Data berhasil dicetak !");
@@ -363,13 +428,20 @@ public class PanelTransaksiPenjualan extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabel_trandetil;
+    private javax.swing.JTextArea txtAlamat;
     private javax.swing.JTextField txtKodePenjualan;
+    private javax.swing.JTextField txtNamaPembeli;
     private com.toedter.calendar.JDateChooser txtTanggal;
+    private javax.swing.JTextField txtTeleponPembeli;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

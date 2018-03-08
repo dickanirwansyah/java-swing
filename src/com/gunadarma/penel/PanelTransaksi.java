@@ -177,7 +177,7 @@ public class PanelTransaksi extends javax.swing.JPanel {
             
             //get jasper
             JasperPrint jp = JasperFillManager.fillReport(this.getClass()
-                    .getClassLoader().getResourceAsStream("com/gunadarma/laporan/LaporanTransaksi.jasper"), null, 
+                    .getClassLoader().getResourceAsStream("com/gunadarma/laporan/TransaksiByKode.jasper"), null, 
                     new JRBeanCollectionDataSource(listReportBerdasarkanById));
             JRViewer jrv = new JRViewer(jp);
             JOptionPane.showMessageDialog(null, "Data berhasil dicetak !");
