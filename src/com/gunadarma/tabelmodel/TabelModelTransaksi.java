@@ -29,7 +29,7 @@ public class TabelModelTransaksi extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-      return 3;
+      return 6;
     }
 
     @Override
@@ -37,7 +37,10 @@ public class TabelModelTransaksi extends AbstractTableModel{
       switch(columnIndex){
           case 0 : return listTransaksi.get(rowIndex).getIdtransaksi();
           case 1 : return listTransaksi.get(rowIndex).getTanggalTransaksi();
-          case 2 : return listTransaksi.get(rowIndex).getTotal();
+          case 2 : return listTransaksi.get(rowIndex).getNama();
+          case 3 : return listTransaksi.get(rowIndex).getNotelp();
+          case 4 : return listTransaksi.get(rowIndex).getAlamat();
+          case 5 : return listTransaksi.get(rowIndex).getTotal();
           default:return null;
       }
     }
@@ -45,9 +48,12 @@ public class TabelModelTransaksi extends AbstractTableModel{
     @Override
     public String getColumnName(int column) {
       switch(column){
-          case 0: return "kdtransaksi";
-          case 1: return "tanggal";
-          case 2: return "total transaksi";
+          case 0 : return "kd-transaksi";
+          case 1 : return "Tanggal";
+          case 2 : return "Nama Pembeli";
+          case 3 : return "Telepon";
+          case 4 : return "Alamat";
+          case 5 : return "Total Transaksi";
           default:return null;
       }
     }
